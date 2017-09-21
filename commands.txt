@@ -1,0 +1,25 @@
+export NAME=kops-demo.contain.io
+export KOPS_STATE_STORE=s3://contain-kops-demo
+
+kops create cluster --node-count 3 --zones eu-central-1a,eu-central-1b,eu-central-1c  --master-zones eu-central-1a,eu-central-1b,eu-central-1c --networking calico --topology private --name=${NAME} --state=${KOPS_STATE_STORE}
+
+kops edit cluster --name=${NAME} --state=${KOPS_STATE_STORE}
+
+kops update cluster --name=${NAME} --state=${KOPS_STATE_STORE} --yes
+
+
+kops get ig --name=${NAME} --state=${KOPS_STATE_STORE}
+kops edit ig nodes --name=${NAME} --state=${KOPS_STATE_STORE}
+
+kubectl get no
+
+
+kubectl -n kube-system get po
+
+kubectl apply -f heapster.yaml
+kubectl apply -f dashboard.yaml
+
+kubectl clusterinfo
+kubectl config view --minify
+
+kops delete cluster --name=${NAME} --state=${KOPS_STATE_STORE} --yes

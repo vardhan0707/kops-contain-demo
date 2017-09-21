@@ -1,0 +1,10 @@
+kubectl create namespace contain-demo
+kubectl get ns
+
+kubectl apply -f nginx.yaml
+
+kubectl -n contain-demo get po,services
+  
+kubectl -n contain-demo expose deployment nginx-deployment --port=80 --type=LoadBalancer
+
+kubectl -n contain-demo get po,services -o wide
